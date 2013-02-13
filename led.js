@@ -107,6 +107,7 @@ SeparatorSegment.prototype.draw = function(type, flg){
 //}}}
 
 //{{{ 7SegmentLED
+//
 //{{{ function SevenSegment(canvas, x, y, size){
 //   a
 // f   b
@@ -240,14 +241,14 @@ SevenSegment.prototype.setOffColor = function(r,g,b){
 function FourteenSegment(canvas, x, y, size){
     this.canvas = canvas;
     this.onColor = [255,50,50];
-    this.offColor = [220,200,200];
-    this.width = size*0.6;
+    this.offColor = [250,240,240];
+    this.width = size*0.68;
     this.height = size;
     this.x = x;
     this.y = y;
     this.shadowBlur = size*0.05;
 
-    var bd = size * 0.09;
+    var bd = size * 0.065;
     var lx = x + bd;//左
     var ty = y + bd;//上
     var rx = x + this.width - bd;//右
@@ -258,6 +259,7 @@ function FourteenSegment(canvas, x, y, size){
     context.stroke();
 
     var cy = y + this.height / 2;
+    var cx = x + this.width / 2;
 
     this.point = {
         a:[ /* 左端 */[lx+bd/6,ty+bd/6], [lx+bd,ty], [rx-bd,ty],   /* 右端 */[rx-bd/6,ty+bd/6], [rx-bd,ty+bd],   [lx+bd,ty+bd] ],
@@ -266,8 +268,16 @@ function FourteenSegment(canvas, x, y, size){
         d:[ /* 左端 */[lx+bd/6,by-bd/6], [lx+bd,by], [rx-bd,by],   /* 右端 */[rx-bd/6,by-bd/6], [rx-bd,by-bd],   [lx+bd,by-bd] ],
         e:[ /* 上端 */[lx+bd/6,cy], [lx+bd,cy+bd/2], [lx+bd,by-bd], /* 下端 */[lx+bd/6,by-bd/6], [lx,by-bd],      [lx,cy+bd/2]  ],
         f:[ /* 上端 */[lx+bd/6,ty+bd/6], [lx+bd,ty+bd],   [lx+bd,cy-bd/2], /* 下端 */[lx+bd/6,cy],    [lx,cy-bd/2],[lx,ty+bd]   ],
-        g1:[ /* 左端 */[lx+bd/6,cy], [lx+bd,cy-bd/2], [rx-bd,cy-bd/2],   /* 右端 */[rx-bd/6,cy], [rx-bd,cy+bd/2], [lx+bd,cy+bd/2] ],
-        g2:[ /* 左端 */[lx+bd/6,cy], [lx+bd,cy-bd/2], [rx-bd,cy-bd/2],   /* 右端 */[rx-bd/6,cy], [rx-bd,cy+bd/2], [lx+bd,cy+bd/2] ],
+        g1:[ /* 左端 */[lx+bd/6,cy], [lx+bd,cy-bd/2], [cx-bd/2,cy-bd/2],   /* 右端 */[cx-bd/6,cy], [cx-bd/2,cy+bd/2], [lx+bd,cy+bd/2] ],
+        g2:[ /* 左端 */[cx+bd/6,cy], [cx+bd/2,cy-bd/2], [rx-bd,cy-bd/2],   /* 右端 */[rx-bd/6,cy], [rx-bd,cy+bd/2], [cx+bd/2,cy+bd/2] ],
+
+        h:[ /* 左上 */[lx+bd,ty+bd],[lx+bd*1.5,ty+bd],[cx-bd,cy-bd*2.5],/* 右下 */[cx-bd,cy-bd],[cx-bd*1.5,cy-bd],[lx+bd,ty+bd*2.5] ],
+        i:[ /* 下端 */[cx,cy-bd/6], /* 左下 */[cx-bd/2,cy-bd],[cx-bd/2,ty+bd],[cx+bd/2,ty+bd] ,/* 右下 */[cx+bd/2,cy-bd] ],
+        j:[ /* 右上 */[rx-bd,ty+bd],[rx-bd*1.5,ty+bd],[cx+bd,cy-bd*2.5],/* 左下 */[cx+bd,cy-bd],[cx+bd*1.5,cy-bd],[rx-bd,ty+bd*2.5] ],
+
+        k:[ /* 左上 */[cx+bd,cy+bd],[cx+bd*1.5,cy+bd],[rx-bd,by-bd*2.5],/* 右下 */[rx-bd,by-bd],[rx-bd*1.5,by-bd],[cx+bd,cy+bd*2.5]],
+        l:[ /* 下端 */[cx,cy+bd/6], /* 左下 */[cx-bd/2,cy+bd],[cx-bd/2,by-bd],[cx+bd/2,by-bd] ,/* 右下 */[cx+bd/2,cy+bd] ],
+        m:[ /* 右上 */[cx-bd,cy+bd],[cx-bd*1.5,cy+bd],[lx+bd,by-bd*2.5],/* 左下 */[lx+bd,by-bd],[lx+bd*1.5,by-bd],[cx-bd,cy+bd*2.5] ],
     };
     var slide = function(array, x, y){
         for(var i=0;i<array.length;i++){
@@ -275,12 +285,12 @@ function FourteenSegment(canvas, x, y, size){
             array[i][1] = array[i][1] + y ;
         }
     }
-    slide(this.point.a,        0, -bd*0.25);
-    slide(this.point.b,  bd*0.15, -bd*0.15);
-    slide(this.point.c,  bd*0.15,  bd*0.15);
-    slide(this.point.d,        0,  bd*0.25);
-    slide(this.point.e, -bd*0.15,  bd*0.15);
-    slide(this.point.f, -bd*0.15, -bd*0.15);
+    slide(this.point.a,       0, -bd*0.25);
+    slide(this.point.b,  bd*0.2, -bd*0.15);
+    slide(this.point.c,  bd*0.2,  bd*0.15);
+    slide(this.point.d,       0,  bd*0.25);
+    slide(this.point.e, -bd*0.2,  bd*0.15);
+    slide(this.point.f, -bd*0.2, -bd*0.15);
 
 }
 //}}}
@@ -288,25 +298,25 @@ function FourteenSegment(canvas, x, y, size){
 FourteenSegment.prototype.mapping = function(number){
     switch(number){
         case 0:
-            return {'number':number,'a':true,'b':true, 'c':true,'d':true, 'e':true, 'f':true, 'g1':false,'g2':false,};
+            return {'number':number,'a':true,'b':true, 'c':true,'d':true, 'e':true, 'f':true, 'g1':false,'g2':false, 'h':false, 'i':false, 'j':false, 'k':false, 'l':false, 'm':false, };
         case 1:
-            return {'number':number,'a':false,'b':true, 'c':true,'d':false, 'e':false, 'f':false, 'g1':false,'g2':false,};
+            return {'number':number,'a':false,'b':true, 'c':true,'d':false, 'e':false, 'f':false, 'g1':false,'g2':false, 'h':false, 'i':false, 'j':true, 'k':false, 'l':false, 'm':false, };
         case 2:
-            return {'number':number,'a':true,'b':true, 'c':false,'d':true, 'e':true, 'f':false, 'g1':true, 'g2':true,};
+            return {'number':number,'a':true,'b':true, 'c':false,'d':true, 'e':true, 'f':false, 'g1':true, 'g2':true, 'h':false, 'i':false, 'j':false, 'k':false, 'l':false, 'm':false, };
         case 3:
-            return {'number':number,'a':true,'b':true, 'c':true,'d':true, 'e':false, 'f':false, 'g1':true, 'g2':true,};
+            return {'number':number,'a':true,'b':true, 'c':true,'d':true, 'e':false, 'f':false, 'g1':false, 'g2':true, 'h':false, 'i':false, 'j':false, 'k':false, 'l':false, 'm':false, };
         case 4:
-            return {'number':number,'a':false,'b':true, 'c':true,'d':false, 'e':false, 'f':true, 'g1':true, 'g2':true,};
+            return {'number':number,'a':false,'b':true, 'c':true,'d':false, 'e':false, 'f':true, 'g1':true, 'g2':true, 'h':false, 'i':false, 'j':false, 'k':false, 'l':false, 'm':false, };
         case 5:
-            return {'number':number,'a':true,'b':false, 'c':true,'d':true, 'e':false, 'f':true, 'g1':true, 'g2':true,};
+            return {'number':number,'a':true,'b':false, 'c':true,'d':true, 'e':false, 'f':true, 'g1':true, 'g2':true, 'h':false, 'i':false, 'j':false, 'k':false, 'l':false, 'm':false, };
         case 6:
-            return {'number':number,'a':true,'b':false, 'c':true,'d':true, 'e':true, 'f':true, 'g1':true, 'g2':true,};
+            return {'number':number,'a':true,'b':false, 'c':true,'d':true, 'e':true, 'f':true, 'g1':true, 'g2':true, 'h':false, 'i':false, 'j':false, 'k':false, 'l':false, 'm':false, };
         case 7:
-            return {'number':number,'a':true,'b':true, 'c':true,'d':false, 'e':false, 'f':false, 'g1':false,'g2':false,};
+            return {'number':number,'a':true,'b':false, 'c':false,'d':false, 'e':false, 'f':false, 'g1':false,'g2':false, 'h':false, 'i':false, 'j':true, 'k':false, 'l':true, 'm':false, };
         case 8:
-            return {'number':number,'a':true,'b':true, 'c':true,'d':true, 'e':true, 'f':true, 'g1':true, 'g2':true,};
+            return {'number':number,'a':true,'b':true, 'c':true,'d':true, 'e':true, 'f':true, 'g1':true, 'g2':true, 'h':false, 'i':false, 'j':false, 'k':false, 'l':false, 'm':false, };
         case 9:
-            return {'number':number,'a':true,'b':true, 'c':true,'d':true, 'e':false, 'f':true, 'g1':true, 'g2':true,};
+            return {'number':number,'a':true,'b':true, 'c':true,'d':true, 'e':false, 'f':true, 'g1':true, 'g2':true, 'h':false, 'i':false, 'j':false, 'k':false, 'l':false, 'm':false, };
         default:
             return {'number':number,}
     }
