@@ -11,17 +11,31 @@ jQuery.event.add(window, "load", function(){
     canvas.height = canvasSize / 3;
 
     var size = canvasSize / 15;
+    size = canvasSize / 8;
     var led = {};
 
     for(var i=0; i<10; i++){
-        led[i.toString()] = new SevenSegment(target, 20 + (size * 1.2)*i, 30, size);
+        led[i.toString()] = new SevenSegment(target, 20 + (size * 0.7)*i, 30, size);
         led[i.toString()].setColor(255,2,2);
-        led[i.toString()].draw(led[i.toString()].mapping(i));
+        led[i.toString()].draw(i);
     }
 
-    new SeparatorSegment(target, 20, 200, size).draw(':');
-    new SeparatorSegment(target, 20 + 10 + size, 200,size).draw('.');
+    var count = 0;
+    var timer = setInterval(function(){
+        /*
+           context.fillStyle = 'black';
+           context.rect(0,0,canvas.width,canvas.height);
+           context.fill();
+           context.closePath();
+           */
+        for(var i=0; i<10; i++){
+            led[i.toString()].draw((i + count)%10);
+        }
+        count++;
+    }, 1000);
 
+    new SeparatorSegment(target, 20, 200, size).draw(':',true);
+    new SeparatorSegment(target, (20+10+size), 200, size).draw('.',false);
 });
 
 //{{{ function SeparatorSegment(canvas, x,y,size){
@@ -55,7 +69,9 @@ SeparatorSegment.prototype.draw = function(type, flg){
             context.beginPath();
             context.arc(xposit, yposit, radius, 0, Math.PI * 2, false);
             context.stroke();
-            context.fill();
+            if(flg){
+                context.fill();
+            }
             context.closePath();
             break;
         case ':':
@@ -66,13 +82,17 @@ SeparatorSegment.prototype.draw = function(type, flg){
             context.fillStyle = "red";
             context.beginPath();
             context.arc(xposit, ypositT, radius, 0, Math.PI * 2, false);
-            context.fill();
+            if(flg){
+                context.fill();
+            }
             context.stroke();
             context.closePath();
             context.fillStyle = "red";
             context.beginPath();
             context.arc(xposit, ypositB, radius, 0, Math.PI * 2, false);
-            context.fill();
+            if(flg){
+                context.fill();
+            }
             context.stroke();
             context.closePath();
             break;
@@ -90,23 +110,24 @@ SeparatorSegment.prototype.draw = function(type, flg){
 //   d
 function SevenSegment(canvas, x, y, size){
     this.canvas = canvas;
+    this.color = [255,50,50];
     this.width = size*0.6;
     this.height = size;
     this.x = x;
     this.y = y;
-
-    var lx = x;//上
-    var ty = y;//左
-    var rx = x + this.width;//右
-    var by = y + this.height;//下
-    var context = canvas.getContext('2d');
-
-    this.color = [255,50,50];
-    //context.rect(x, y, this.width, this.height);
-    //context.stroke();
+    this.shadowBlur = size*0.05;
 
     var bd = size * 0.10;
-    var cy = ty + this.height / 2;
+    var lx = x + bd;//左
+    var ty = y + bd;//上
+    var rx = x + this.width - bd;//右
+    var by = y + this.height - bd;//下
+    var context = canvas.getContext('2d');
+
+    //context.rect(this.x, this.y, this.width, this.height);
+    //context.stroke();
+
+    var cy = y + this.height / 2;
 
     this.point = {
         a:[ [lx+bd/2,ty+bd/2], [lx+bd,ty], [rx-bd,ty],    [rx-bd/2,ty+bd/2], [rx-bd,ty+bd],   [lx+bd,ty+bd] ],
@@ -123,10 +144,10 @@ function SevenSegment(canvas, x, y, size){
             array[i][1] = array[i][1] + y ;
         }
     }
-    slide(this.point.a, 0,        -bd*0.25);
+    slide(this.point.a,        0, -bd*0.25);
     slide(this.point.b,  bd*0.15, -bd*0.15);
     slide(this.point.c,  bd*0.15,  bd*0.15);
-    slide(this.point.d, 0,         bd*0.25);
+    slide(this.point.d,        0,  bd*0.25);
     slide(this.point.e, -bd*0.15,  bd*0.15);
     slide(this.point.f, -bd*0.15, -bd*0.15);
 }
@@ -160,10 +181,13 @@ SevenSegment.prototype.mapping = function(number){
 }
 //}}}
 //{{{ SevenSegment.prototype.draw = function(input){
-SevenSegment.prototype.draw = function(input){
+SevenSegment.prototype.draw = function(number){
     var context = this.canvas.getContext('2d');
+    var input = this.mapping(number);
     context.fillStyle = "rgba(" + this.color[0] + ","+ this.color[1] + "," + this.color[2] + ",1.0" + ")";
-    context.fillText(input.number, this.x, this.y - 3);
+    context.shadowColor = "rgba(" + this.color[0] + ","+ this.color[1] + "," + this.color[2] + ",0.5" + ")";
+    //context.fillText(input.number, this.x, this.y - 3);
+    context.clearRect(this.x,this.y,this.width, this.height);
 
     for(var key in this.point){
         var point = this.point[key.toString()];
@@ -172,13 +196,17 @@ SevenSegment.prototype.draw = function(input){
             context.lineTo(point[i][0], point[i][1]);
         }
         if(input[key.toString()]){
+            context.shadowBlur = this.shadowBlur;
             context.fill();
+        }else{
+            context.shadowBlur = 0;
         }
         context.closePath();
         context.stroke();
     }
 }
-
+//}}}
+//{{{ SevenSegment.prototype.setColor = function(r,g,b){
 SevenSegment.prototype.setColor = function(r,g,b){
     this.color[0] = r;
     this.color[1] = g;
