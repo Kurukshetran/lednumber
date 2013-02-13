@@ -129,13 +129,13 @@ function SevenSegment(canvas, x, y, size){
     var cy = y + this.height / 2;
 
     this.point = {
-        a:[ /* 左端 */[lx+bd/4,ty+bd/4], [lx+bd,ty], [rx-bd,ty],   /* 右端 */[rx-bd/4,ty+bd/4], [rx-bd,ty+bd],   [lx+bd,ty+bd] ],
-        b:[ /* 上端 */[rx-bd/4,ty+bd/4], [rx,ty+bd], [rx,cy-bd/2],       /* 下端 */[rx-bd/4,cy], [rx-bd,cy-bd/2], [rx-bd,ty+bd] ],
-        c:[ /* 上端 */[rx-bd/4,cy],[rx,cy+bd/2],      [rx,by-bd], /* 下端 */[rx-bd/4,by-bd/4], [rx-bd,by-bd], [rx-bd,cy+bd/2]   ],
-        d:[ /* 左端 */[lx+bd/4,by-bd/4], [lx+bd,by], [rx-bd,by],   /* 右端 */[rx-bd/4,by-bd/4], [rx-bd,by-bd],   [lx+bd,by-bd] ],
-        e:[ /* 上端 */[lx+bd/4,cy], [lx+bd,cy+bd/2], [lx+bd,by-bd], /* 下端 */[lx+bd/4,by-bd/4], [lx,by-bd],      [lx,cy+bd/2]  ],
-        f:[ /* 上端 */[lx+bd/4,ty+bd/4], [lx+bd,ty+bd],   [lx+bd,cy-bd/2], /* 下端 */[lx+bd/4,cy],    [lx,cy-bd/2],[lx,ty+bd]   ],
-        g:[ /* 左端 */[lx+bd/4,cy], [lx+bd,cy-bd/2], [rx-bd,cy-bd/2],   /* 右端 */[rx-bd/4,cy], [rx-bd,cy+bd/2], [lx+bd,cy+bd/2] ],
+        a:[ /* 左端 */[lx+bd/6,ty+bd/6], [lx+bd,ty], [rx-bd,ty],   /* 右端 */[rx-bd/6,ty+bd/6], [rx-bd,ty+bd],   [lx+bd,ty+bd] ],
+        b:[ /* 上端 */[rx-bd/6,ty+bd/6], [rx,ty+bd], [rx,cy-bd/2],       /* 下端 */[rx-bd/6,cy], [rx-bd,cy-bd/2], [rx-bd,ty+bd] ],
+        c:[ /* 上端 */[rx-bd/6,cy],[rx,cy+bd/2],      [rx,by-bd], /* 下端 */[rx-bd/6,by-bd/6], [rx-bd,by-bd], [rx-bd,cy+bd/2]   ],
+        d:[ /* 左端 */[lx+bd/6,by-bd/6], [lx+bd,by], [rx-bd,by],   /* 右端 */[rx-bd/6,by-bd/6], [rx-bd,by-bd],   [lx+bd,by-bd] ],
+        e:[ /* 上端 */[lx+bd/6,cy], [lx+bd,cy+bd/2], [lx+bd,by-bd], /* 下端 */[lx+bd/6,by-bd/6], [lx,by-bd],      [lx,cy+bd/2]  ],
+        f:[ /* 上端 */[lx+bd/6,ty+bd/6], [lx+bd,ty+bd],   [lx+bd,cy-bd/2], /* 下端 */[lx+bd/6,cy],    [lx,cy-bd/2],[lx,ty+bd]   ],
+        g:[ /* 左端 */[lx+bd/6,cy], [lx+bd,cy-bd/2], [rx-bd,cy-bd/2],   /* 右端 */[rx-bd/6,cy], [rx-bd,cy+bd/2], [lx+bd,cy+bd/2] ],
     };
     var slide = function(array, x, y){
         for(var i=0;i<array.length;i++){
