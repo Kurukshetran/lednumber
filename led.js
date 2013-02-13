@@ -26,6 +26,7 @@ jQuery.event.add(window, "load", function(){
 
     var str = 'abcdefghijklmnopqrstuvwxyz';
     var sizeOf14 = canvasSize / (str.length-7);
+    //sizeOf14 = canvasSize / (str.length-19);
     for(var i=0; i<str.length; i++){
         var c = str.charAt(i);
         var led14 = new FourteenSegment(target, 20+(sizeOf14*0.7)*i,30+size*1.2,sizeOf14);
@@ -283,12 +284,13 @@ function FourteenSegment(canvas, x, y, size){
         g1:[ /* 左端 */[lx+bd/6,cy], [lx+bd,cy-bd/2], [cx-bd/2,cy-bd/2],   /* 右端 */[cx-bd/6,cy], [cx-bd/2,cy+bd/2], [lx+bd,cy+bd/2] ],
         g2:[ /* 左端 */[cx+bd/6,cy], [cx+bd/2,cy-bd/2], [rx-bd,cy-bd/2],   /* 右端 */[rx-bd/6,cy], [rx-bd,cy+bd/2], [cx+bd/2,cy+bd/2] ],
 
+        i:[ /* 下端 */[cx,cy-bd/6], /* 左下 */[cx-bd/2.5,cy-bd],[cx-bd/2.5,ty+bd],[cx+bd/2.5,ty+bd] ,/* 右下 */[cx+bd/2.5,cy-bd] ],
+        l:[ /* 上端 */[cx,cy+bd/6], /* 左上 */[cx-bd/2.5,cy+bd],[cx-bd/2.5,by-bd],[cx+bd/2.5,by-bd] ,/* 右上 */[cx+bd/2.5,cy+bd] ],
+
         h:[ /* 左上 */[lx+bd,ty+bd],[lx+bd*1.5,ty+bd],[cx-bd,cy-bd*2.5],/* 右下 */[cx-bd,cy-bd],[cx-bd*1.5,cy-bd],[lx+bd,ty+bd*2.5] ],
-        i:[ /* 下端 */[cx,cy-bd/6], /* 左下 */[cx-bd/2,cy-bd],[cx-bd/2,ty+bd],[cx+bd/2,ty+bd] ,/* 右下 */[cx+bd/2,cy-bd] ],
         j:[ /* 右上 */[rx-bd,ty+bd],[rx-bd*1.5,ty+bd],[cx+bd,cy-bd*2.5],/* 左下 */[cx+bd,cy-bd],[cx+bd*1.5,cy-bd],[rx-bd,ty+bd*2.5] ],
 
         k:[ /* 左上 */[cx+bd,cy+bd],[cx+bd*1.5,cy+bd],[rx-bd,by-bd*2.5],/* 右下 */[rx-bd,by-bd],[rx-bd*1.5,by-bd],[cx+bd,cy+bd*2.5]],
-        l:[ /* 下端 */[cx,cy+bd/6], /* 左下 */[cx-bd/2,cy+bd],[cx-bd/2,by-bd],[cx+bd/2,by-bd] ,/* 右下 */[cx+bd/2,cy+bd] ],
         m:[ /* 右上 */[cx-bd,cy+bd],[cx-bd*1.5,cy+bd],[lx+bd,by-bd*2.5],/* 左下 */[lx+bd,by-bd],[lx+bd*1.5,by-bd],[cx-bd,cy+bd*2.5] ],
     };
     var slide = function(array, x, y){
@@ -304,10 +306,10 @@ function FourteenSegment(canvas, x, y, size){
     slide(this.point.e, -bd*0.2,  bd*0.15);
     slide(this.point.f, -bd*0.2, -bd*0.15);
 
-    slide(this.point.h,  bd*0.15, 0);
-    slide(this.point.j, -bd*0.15, 0);
-    slide(this.point.k, -bd*0.15, 0);
-    slide(this.point.m,  bd*0.15, 0);
+    slide(this.point.h,  bd*0.2, 0);
+    slide(this.point.j, -bd*0.2, 0);
+    slide(this.point.k, -bd*0.2, 0);
+    slide(this.point.m,  bd*0.2, 0);
 }
 //}}}
 //{{{ FourteenSegment.prototype.mapping = function(number){
