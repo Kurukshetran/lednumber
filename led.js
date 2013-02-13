@@ -59,30 +59,32 @@ function SeparatorSegment(canvas, x,y,size){
     this.width = size*0.2;
     this.height = size;
     this.onColor = [255,50,50];
+    this.offColor = [240,230,230];
     var context = canvas.getContext('2d');
-    context.rect(x, y, this.width, this.height);
-    context.stroke();
+    //context.rect(x, y, this.width, this.height);
+    //context.stroke();
 }
 //}}}
 //{{{ SeparatorSegment.prototype.draw = function(type, flg){
 SeparatorSegment.prototype.draw = function(type, flg){
     var context = this.canvas.getContext('2d');
-    var rgb = this.onColor[0] + ',' + this.onColor[1] + ',' + this.onColor[2];
-    context.fillStyle = "red";
+    context.save();
     context.clearRect(this.x, this.y, this.width, this.height);
+
+    if(flg){
+        context.fillStyle = "rgba(" + this.onColor[0] + "," + this.onColor[1] + "," + this.onColor[2] + ",1.0"+ ")";
+    }else{
+        context.fillStyle = "rgba(" + this.offColor[0] + "," + this.offColor[1] + "," + this.offColor[2] + ",1.0"+ ")";
+    }
 
     switch(type){
         case '.':
             var xposit = this.x + this.width * 0.5;
             var yposit = this.y + this.height * 0.9;
             var radius = ((this.width < this.height)? this.width : this.height) / 6;
-            context.fillStyle = "red";
             context.beginPath();
             context.arc(xposit, yposit, radius, 0, Math.PI * 2, false);
-            context.stroke();
-            if(flg){
-                context.fill();
-            }
+            context.fill();
             context.closePath();
             break;
         case ':':
@@ -90,26 +92,19 @@ SeparatorSegment.prototype.draw = function(type, flg){
             var ypositT = this.y + this.height * 0.3;
             var ypositB = this.y + this.height * 0.7;
             var radius = ((this.width < this.height)? this.width : this.height) / 6;
-            context.fillStyle = "red";
             context.beginPath();
             context.arc(xposit, ypositT, radius, 0, Math.PI * 2, false);
-            if(flg){
-                context.fill();
-            }
-            context.stroke();
+            context.fill();
             context.closePath();
-            context.fillStyle = "red";
             context.beginPath();
             context.arc(xposit, ypositB, radius, 0, Math.PI * 2, false);
-            if(flg){
-                context.fill();
-            }
-            context.stroke();
+            context.fill();
             context.closePath();
             break;
         default:
             break;
     }
+    context.restore();
 }
 //}}}
 //}}}
