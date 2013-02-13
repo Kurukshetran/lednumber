@@ -19,18 +19,19 @@ jQuery.event.add(window, "load", function(){
         led[i] = new SevenSegment(target, 140+(size*0.7)*i, 30, size);
         led[i].setOnColor(255,2,2);
         led[i].setOffColor(220,200,200);
-        led[i].draw(i);
+        led[i].draw(led[i].mapping(i));
 
         led14[i] = new FourteenSegment(target, 20+(size*0.7)*i,30+size*1.2,size);
-        led14[i].draw(i);
+        led14[i].draw(led14[i].mapping(i));
     }
     colon.draw(':',true);
     period.draw('.',true);
 
-    var count = 0;
+    var count = 1;
     var timer = setInterval(function(){
         for(var i=0; i<10; i++){
-            led[i].draw((i + count)%10);
+            var mapping = led[i].mapping((i+count)%10);
+            led[i].draw(mapping);
         }
         count++;
         colon.draw(':',count%2);
@@ -187,10 +188,9 @@ SevenSegment.prototype.mapping = function(number){
 }
 //}}}
 //{{{ SevenSegment.prototype.draw = function(input){
-SevenSegment.prototype.draw = function(number){
+SevenSegment.prototype.draw = function(input){
     var context = this.canvas.getContext('2d');
-    var input = this.mapping(number);
-    //context.fillStyle = "rgba(" + this.onColor[0] + ","+ this.onColor[1] + "," + this.onColor[2] + ",1.0" + ")";
+    //var input = this.mapping(number);
     context.shadowColor = "rgba(" + this.onColor[0] + ","+ this.onColor[1] + "," + this.onColor[2] + ",0.5" + ")";
     context.clearRect(this.x,this.y,this.width, this.height);
 
@@ -232,11 +232,11 @@ SevenSegment.prototype.setOffColor = function(r,g,b){
 
 // 14 ------------------------------------------------------------
 //{{{ function FourteenSegment(canvas, x, y, size){
-//   a
-// f   b
-//   g
-// e   c
-//   d
+//     a
+// f h i j  b
+//   g1  g2
+// e m l k  c
+//     d
 function FourteenSegment(canvas, x, y, size){
     this.canvas = canvas;
     this.onColor = [255,50,50];
@@ -266,7 +266,8 @@ function FourteenSegment(canvas, x, y, size){
         d:[ /* 左端 */[lx+bd/6,by-bd/6], [lx+bd,by], [rx-bd,by],   /* 右端 */[rx-bd/6,by-bd/6], [rx-bd,by-bd],   [lx+bd,by-bd] ],
         e:[ /* 上端 */[lx+bd/6,cy], [lx+bd,cy+bd/2], [lx+bd,by-bd], /* 下端 */[lx+bd/6,by-bd/6], [lx,by-bd],      [lx,cy+bd/2]  ],
         f:[ /* 上端 */[lx+bd/6,ty+bd/6], [lx+bd,ty+bd],   [lx+bd,cy-bd/2], /* 下端 */[lx+bd/6,cy],    [lx,cy-bd/2],[lx,ty+bd]   ],
-        g:[ /* 左端 */[lx+bd/6,cy], [lx+bd,cy-bd/2], [rx-bd,cy-bd/2],   /* 右端 */[rx-bd/6,cy], [rx-bd,cy+bd/2], [lx+bd,cy+bd/2] ],
+        g1:[ /* 左端 */[lx+bd/6,cy], [lx+bd,cy-bd/2], [rx-bd,cy-bd/2],   /* 右端 */[rx-bd/6,cy], [rx-bd,cy+bd/2], [lx+bd,cy+bd/2] ],
+        g2:[ /* 左端 */[lx+bd/6,cy], [lx+bd,cy-bd/2], [rx-bd,cy-bd/2],   /* 右端 */[rx-bd/6,cy], [rx-bd,cy+bd/2], [lx+bd,cy+bd/2] ],
     };
     var slide = function(array, x, y){
         for(var i=0;i<array.length;i++){
@@ -287,35 +288,33 @@ function FourteenSegment(canvas, x, y, size){
 FourteenSegment.prototype.mapping = function(number){
     switch(number){
         case 0:
-            return {'number':number,'a':true,'b':true, 'c':true,'d':true, 'e':true, 'f':true, 'g':false,};
+            return {'number':number,'a':true,'b':true, 'c':true,'d':true, 'e':true, 'f':true, 'g1':false,'g2':false,};
         case 1:
-            return {'number':number,'a':false,'b':true, 'c':true,'d':false, 'e':false, 'f':false, 'g':false,};
+            return {'number':number,'a':false,'b':true, 'c':true,'d':false, 'e':false, 'f':false, 'g1':false,'g2':false,};
         case 2:
-            return {'number':number,'a':true,'b':true, 'c':false,'d':true, 'e':true, 'f':false, 'g':true,};
+            return {'number':number,'a':true,'b':true, 'c':false,'d':true, 'e':true, 'f':false, 'g1':true, 'g2':true,};
         case 3:
-            return {'number':number,'a':true,'b':true, 'c':true,'d':true, 'e':false, 'f':false, 'g':true,};
+            return {'number':number,'a':true,'b':true, 'c':true,'d':true, 'e':false, 'f':false, 'g1':true, 'g2':true,};
         case 4:
-            return {'number':number,'a':false,'b':true, 'c':true,'d':false, 'e':false, 'f':true, 'g':true,};
+            return {'number':number,'a':false,'b':true, 'c':true,'d':false, 'e':false, 'f':true, 'g1':true, 'g2':true,};
         case 5:
-            return {'number':number,'a':true,'b':false, 'c':true,'d':true, 'e':false, 'f':true, 'g':true,};
+            return {'number':number,'a':true,'b':false, 'c':true,'d':true, 'e':false, 'f':true, 'g1':true, 'g2':true,};
         case 6:
-            return {'number':number,'a':true,'b':false, 'c':true,'d':true, 'e':true, 'f':true, 'g':true,};
+            return {'number':number,'a':true,'b':false, 'c':true,'d':true, 'e':true, 'f':true, 'g1':true, 'g2':true,};
         case 7:
-            return {'number':number,'a':true,'b':true, 'c':true,'d':false, 'e':false, 'f':false, 'g':false,};
+            return {'number':number,'a':true,'b':true, 'c':true,'d':false, 'e':false, 'f':false, 'g1':false,'g2':false,};
         case 8:
-            return {'number':number,'a':true,'b':true, 'c':true,'d':true, 'e':true, 'f':true, 'g':true,};
+            return {'number':number,'a':true,'b':true, 'c':true,'d':true, 'e':true, 'f':true, 'g1':true, 'g2':true,};
         case 9:
-            return {'number':number,'a':true,'b':true, 'c':true,'d':true, 'e':false, 'f':true, 'g':true,};
+            return {'number':number,'a':true,'b':true, 'c':true,'d':true, 'e':false, 'f':true, 'g1':true, 'g2':true,};
         default:
             return {'number':number,}
     }
 }
 //}}}
 //{{{ FourteenSegment.prototype.draw = function(input){
-FourteenSegment.prototype.draw = function(number){
+FourteenSegment.prototype.draw = function(input){
     var context = this.canvas.getContext('2d');
-    var input = this.mapping(number);
-    //context.fillStyle = "rgba(" + this.onColor[0] + ","+ this.onColor[1] + "," + this.onColor[2] + ",1.0" + ")";
     context.shadowColor = "rgba(" + this.onColor[0] + ","+ this.onColor[1] + "," + this.onColor[2] + ",0.5" + ")";
     context.clearRect(this.x,this.y,this.width, this.height);
 
