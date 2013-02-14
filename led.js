@@ -76,7 +76,7 @@ function SevenSegment(canvas, x, y, size){
     this.height = size;
     this.x = x;
     this.y = y;
-    this.shadowBlur = size*0.05;
+    this.shadowBlur = size*0.04;
 
     var bd = size * 0.09;
     var lx = x + bd;//左
@@ -205,7 +205,7 @@ function FourteenSegment(canvas, x, y, size){
     this.height = size;
     this.x = x;
     this.y = y;
-    this.shadowBlur = size*0.05;
+    this.shadowBlur = size*0.04;
 
     var bd = size * 0.065;
     var lx = x + bd;//左
@@ -399,7 +399,7 @@ function SixteenSegment(canvas, x, y, size){
     this.height = size;
     this.x = x;
     this.y = y;
-    this.shadowBlur = size*0.05;
+    this.shadowBlur = size*0.04;
 
     var bd = size * 0.065;
     var lx = x + bd;//左
