@@ -19,8 +19,16 @@ canvasに7/14/16セグメントledっぽいフォントで数字を書き出し�
 ### newしてdrawする
 ```
 var canvas = document.getElementById("sample");  
+var canvas = document.getElementById("sample");  
+// 7セグメント版  
 led7 = new SevenSegment(canvas, x座標, y座標, 大きさ);  
 led7.draw( led7.mapping(数字) );  
+// 14セグメント版  
+led14 = new FourteenSegment(canvas, x座標, y座標, 大きさ);  
+led14.draw( led14.mapping(数字) );  
+// 16セグメント版  
+led16 = new SixteenSegment(canvas, x座標, y座標, 大きさ);  
+led16.draw( led16.mapping(数字) ); 
 ```
 ### オプションについて
 色を変えるとき  
