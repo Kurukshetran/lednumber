@@ -1,6 +1,6 @@
 
 jQuery.event.add(window, 'load', function(){
-    var description = $('span.skinDescription');
+    var description = $('span.skinDescription').html('');
     var canvas = $('<canvas />').appendTo(description).get(0);
     canvas.width = description.width();
     canvas.height = description.height();
