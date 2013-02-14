@@ -3,7 +3,9 @@ lednumber
 ## なにこれ
 canvasに7/14/16セグメントledっぽいフォントで数字を書き出します
 
-![Demo](https://raw.github.com/satanabe1/lednumber/master/pic/list.png)
+![Demo](https://raw.github.com/satanabe1/lednumber/master/pic/list.png)  
+
+![Demo](https://raw.github.com/satanabe1/lednumber/master/pic/rb.png)
 
 ## 使い方
 ### led.jsを追加する
